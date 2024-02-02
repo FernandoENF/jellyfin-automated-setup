@@ -1,0 +1,4 @@
+# JELLYFIN FILES
+./jellyfin/cache/*
+./jellyfin/config/*
+./jellyfin/media/*

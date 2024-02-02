@@ -1,0 +1,10 @@
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    volumes:
+      - ./jellyfin/config:/config
+      - ./jellyfin/cache:/cache
+      - ./jellyfin/media:/media
+    restart: 'unless-stopped'
+# TODO: OTHER SERVICES FOR REQUESTING AND DOWNLOADING MEDIA
