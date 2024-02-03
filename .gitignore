@@ -15,6 +15,11 @@ gluetun/*
 radarr/*
 !radarr/config/.gitkeep
 
+# SONARR FILES
+sonarr/**
+!sonarr/**/
+!sonarr/config/.gitkeep
+
 # DATA FOLDERS SHARED BY SERVICES
 data/media/**
 !data/media/**/
