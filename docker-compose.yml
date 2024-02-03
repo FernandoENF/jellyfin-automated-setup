@@ -1,4 +1,12 @@
 version: '3.5'
+networks:
+  media:
+    name: media-network
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.18.0.0/16
+          gateway: 172.18.0.1
 services:
   jellyfin:
     image: jellyfin/jellyfin
@@ -11,26 +19,28 @@ services:
     volumes:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
-      - ./jellyfin/media:/media
+      - ./data:/data
     environment:
       - TZ=$TZ
+      - JELLYFIN_PublishedServerUrl=$URL
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
+    networks:
+      - media
     cap_add:
       - NET_ADMIN
     devices:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - ./gluetun:/gluetun
-    networks:
-      - media
     ports:
       - 8080:8080 # qBitTorrent
       - 6881:6881 # qBitTorrent
       - 6881:6881/udp # qBitTorrent
       - 7878:7878 # Radarr
       - 8989:8989 # Sonarr
+      - 9696:9696 # Prowlarr
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
@@ -80,9 +90,32 @@ services:
       - ./data:/data
     depends_on:
       - gluetun
+  prowlarr:
+    image: linuxserver/prowlarr:nightly
+    container_name: prowlarr
+    restart: unless-stopped
+    network_mode: 'service:gluetun'
+    environment:
+      - BIND_ADDRESS=0.0.0.0:9696
+      - PUID=0
+      - PGID=0
+      - TZ=$TZ
+    volumes:
+      - ./prowlarr/config:/config
+    depends_on:
+      - gluetun
+  flaresolverr:
+    image: flaresolverr/flaresolverr
+    container_name: flaresolverr
+    restart: unless-stopped
+    networks:
+      - media
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=$TZ
+    ports:
+      - "8191:8191"
 
 # TODO: OTHER SERVICES FOR REQUESTING AND DOWNLOADING MEDIA
-networks:
-  media:
-    external:
-      name: media-network

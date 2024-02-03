@@ -1,7 +1,6 @@
 # JELLYFIN FILES
 jellyfin/cache/*
 jellyfin/config/*
-jellyfin/media/*
 
 # QBITTORRENT FILES
 qbittorrent/config/*
@@ -19,6 +18,11 @@ radarr/*
 sonarr/**
 !sonarr/**/
 !sonarr/config/.gitkeep
+
+# PROWLARR FILES
+prowlarr/**
+!prowlarr/**/
+!prowlarr/config/.gitkeep
 
 # DATA FOLDERS SHARED BY SERVICES
 data/media/**
