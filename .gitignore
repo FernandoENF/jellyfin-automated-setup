@@ -11,6 +11,10 @@ qbittorrent/config/*
 gluetun/*
 !gluetun/.gitkeep
 
+# RADARR FILES
+radar/*
+!radar/.gitkeep
+
 # DATA FOLDERS SHARED BY SERVICES
 data/media/*
 !data/media/.gitkeep

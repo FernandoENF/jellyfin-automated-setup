@@ -12,6 +12,8 @@ services:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
       - ./jellyfin/media:/media
+    enviroment:
+      - TZ=$TZ
   gluetun:
     image: qmcgaw/gluetun
     container_name: gluetun
@@ -25,11 +27,13 @@ services:
       - 8080:8080 # qBitTorrent
       - 6881:6881 # qBitTorrent
       - 6881:6881/udp # qBitTorrent
+      - 7878:7878 # Radarr
     environment:
       - VPN_SERVICE_PROVIDER=nordvpn
       - VPN_TYPE=wireguard
       - WIREGUARD_PRIVATE_KEY=$PRIVATE_KEY
       - UPDATER_PERIOD=24h
+      - TZ=$TZ
   qbittorrent:
     image: linuxserver/qbittorrent
     container_name: qbittorrent
@@ -39,11 +43,24 @@ services:
       - PUID=0
       - PGID=0
       - WEBUI_PORT=8080
+      - TZ=$TZ
     volumes:
       - ./qbittorrent/config:/config
       - ./data:/data
     depends_on:
       - gluetun
+  radarr:
+    image: linuxserver/radarr
+    container_name: radarr
+    restart: unless-stopped
+    environment:
+      - PUID=0
+      - PGID=0
+      - TZ=$TZ
+    volumes:
+      - ./radarr/config:/config
+      - ./data:/data
+
 
 # TODO: OTHER SERVICES FOR REQUESTING AND DOWNLOADING MEDIA
 networks:
