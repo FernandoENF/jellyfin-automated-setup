@@ -53,6 +53,7 @@ services:
     image: linuxserver/radarr
     container_name: radarr
     restart: unless-stopped
+    network_mode: 'service:gluetun'
     environment:
       - PUID=0
       - PGID=0
@@ -60,6 +61,8 @@ services:
     volumes:
       - ./radarr/config:/config
       - ./data:/data
+    depends_on:
+      - gluetun
 
 
 # TODO: OTHER SERVICES FOR REQUESTING AND DOWNLOADING MEDIA
