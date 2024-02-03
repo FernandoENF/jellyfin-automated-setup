@@ -12,7 +12,7 @@ services:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
       - ./jellyfin/media:/media
-    enviroment:
+    environment:
       - TZ=$TZ
   gluetun:
     image: qmcgaw/gluetun
@@ -23,6 +23,8 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - ./gluetun:/gluetun
+    networks:
+      - media
     ports:
       - 8080:8080 # qBitTorrent
       - 6881:6881 # qBitTorrent

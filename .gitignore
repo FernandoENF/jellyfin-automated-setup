@@ -12,16 +12,28 @@ gluetun/*
 !gluetun/.gitkeep
 
 # RADARR FILES
-radar/*
-!radar/.gitkeep
+radarr/*
+!radarr/config/.gitkeep
 
 # DATA FOLDERS SHARED BY SERVICES
-data/media/*
+data/media/**
+!data/media/**/
 !data/media/.gitkeep
-data/torrents/*
+!data/media/movies/.gitkeep
+!data/media/tv/.gitkeep
+!data/media/music/.gitkeep
+data/torrents/**
+!data/torrents/**/
 !data/torrents/.gitkeep
-data/usenet/*
+!data/torrents/movies/.gitkeep
+!data/torrents/tv/.gitkeep
+!data/torrents/music/.gitkeep
+data/usenet/**
+!data/usenet/**/
 !data/usenet/.gitkeep
+!data/usenet/movies/.gitkeep
+!data/usenet/music/.gitkeep
+!data/usenet/tv/.gitkeep
 
 # ENV
 .env
