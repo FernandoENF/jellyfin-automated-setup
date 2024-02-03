@@ -1,10 +1,52 @@
+version: '3.5'
 services:
   jellyfin:
     image: jellyfin/jellyfin
     container_name: jellyfin
+    restart: 'unless-stopped'
+    networks:
+      - media
+    ports:
+      - '8096:8096'
     volumes:
       - ./jellyfin/config:/config
       - ./jellyfin/cache:/cache
       - ./jellyfin/media:/media
+  gluetun:
+    image: qmcgaw/gluetun
+    container_name: gluetun
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    volumes:
+      - ./gluetun:/gluetun
+    ports:
+      - 8080:8080 # qBitTorrent
+      - 6881:6881 # qBitTorrent
+      - 6881:6881/udp # qBitTorrent
+    environment:
+      - VPN_SERVICE_PROVIDER=nordvpn
+      - VPN_TYPE=wireguard
+      - WIREGUARD_PRIVATE_KEY=$PRIVATE_KEY
+      - UPDATER_PERIOD=24h
+  qbittorrent:
+    image: linuxserver/qbittorrent
+    container_name: qbittorrent
     restart: 'unless-stopped'
+    network_mode: 'service:gluetun'
+    environment:
+      - PUID=0
+      - PGID=0
+      - WEBUI_PORT=8080
+    volumes:
+      - ./qbittorrent/config:/config
+      - ./data:/data
+    depends_on:
+      - gluetun
+
 # TODO: OTHER SERVICES FOR REQUESTING AND DOWNLOADING MEDIA
+networks:
+  media:
+    name: media-network
+    external: true

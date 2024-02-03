@@ -1,4 +1,23 @@
 # JELLYFIN FILES
-./jellyfin/cache/*
-./jellyfin/config/*
-./jellyfin/media/*
+jellyfin/cache/*
+jellyfin/config/*
+jellyfin/media/*
+
+# QBITTORRENT FILES
+qbittorrent/config/*
+!qbittorrent/config/.gitkeep
+
+# GLUETUN FILES
+gluetun/*
+!gluetun/.gitkeep
+
+# DATA FOLDERS SHARED BY SERVICES
+data/media/*
+!data/media/.gitkeep
+data/torrents/*
+!data/torrents/.gitkeep
+data/usenet/*
+!data/usenet/.gitkeep
+
+# ENV
+.env
