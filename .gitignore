@@ -20,9 +20,15 @@ sonarr/**
 !sonarr/config/.gitkeep
 
 # PROWLARR FILES
-prowlarr/**
-!prowlarr/**/
+prowlarr/config/*
 !prowlarr/config/.gitkeep
+
+# JELLYSEER FILES
+jellyseerr/config/*
+!jellyseerr/config/.gitkeep
+
+bazarr/config/*
+!bazarr/config/.gitkeep
 
 # DATA FOLDERS SHARED BY SERVICES
 data/media/**
